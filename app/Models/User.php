@@ -46,4 +46,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    // Öğrencinin aldığı dersler
+    public function courses()
+    {
+        return $this->belongsToMany(\App\Models\Course::class)
+                    ->withPivot('absences_count', 'student_limit')
+                    ->withTimestamps();
+    }
+    
 }
