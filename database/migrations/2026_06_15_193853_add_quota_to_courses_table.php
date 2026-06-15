@@ -9,11 +9,13 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+  public function up(): void
     {
         Schema::table('courses', function (Blueprint $table) {
-            // quota sütununu ekliyoruz, varsayılan olarak 50 kontenjan veriyoruz
-            $table->integer('quota')->default(50)->after('passing_grade');
+            // Sütun zaten var mı diye kontrol et, yoksa ekle
+            if (!Schema::hasColumn('courses', 'quota')) {
+                $table->integer('quota')->default(50);
+            }
         });
     }
 
