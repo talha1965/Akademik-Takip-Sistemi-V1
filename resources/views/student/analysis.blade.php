@@ -104,7 +104,7 @@
                         @endif
                     </div>
 
-                    <div x-show="simOpen" x-collapse>
+                    <div x-show="simOpen" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 -translate-y-2" x-transition:enter-end="opacity-100 translate-y-0" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="opacity-100 translate-y-0" x-transition:leave-end="opacity-0 -translate-y-2">
                         <div class="bg-slate-800 p-8 border-t border-slate-700 text-white">
                             <h4 class="font-black text-lg text-indigo-300 mb-6 flex items-center gap-2">
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>

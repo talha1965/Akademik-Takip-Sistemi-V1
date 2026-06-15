@@ -24,11 +24,16 @@
             <x-input-error :messages="$errors->get('password')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-between">
-            <a class="text-sm font-bold text-amber-500 hover:text-amber-600 transition" href="{{ route('password.request') }}">
-                Parolamı Unuttum!
-            </a>
-        </div>
+  <div class="flex flex-col gap-3 mt-6">
+    <a class="text-sm font-bold text-amber-500 hover:text-amber-600 transition" href="{{ route('password.request') }}">
+        Parolamı Unuttum!
+    </a>
+    
+    <a class="text-sm font-bold text-amber-500 hover:text-amber-600 transition" href="{{ route('register') }}">
+        Kayıt Ol
+    </a>
+</div>
+        
 
         <div class="pt-4">
             <x-primary-button class="w-full justify-center bg-amber-500 hover:bg-amber-600 text-slate-900 font-black py-4 rounded-none shadow-xl shadow-amber-500/20 transition-all active:scale-95 text-base uppercase">

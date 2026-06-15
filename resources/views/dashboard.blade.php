@@ -28,7 +28,7 @@
         <div class="bg-gradient-to-r from-[#0f5279] to-sky-600 rounded-2xl shadow-lg mb-8 overflow-hidden relative flex items-center mt-6">
             <div class="p-8 relative z-10 w-full">
                 <h1 class="text-3xl font-black text-white mb-2">Hoş Geldin, {{ Auth::user()->name }}! 🎓</h1>
-                <p class="text-sky-100 text-lg">İşte 2025-2026 Akademik durumunun güncel özeti.</p>
+                <p class="text-sky-100 text-lg">İşte Akademik durumunun güncel özeti.</p>
             </div>
             <svg class="absolute right-0 top-0 h-full text-white/10 transform translate-x-1/4 scale-150" fill="currentColor" viewBox="0 0 100 100">
                 <circle cx="50" cy="50" r="50"></circle>
@@ -111,7 +111,7 @@
                 </div>
                 <div class="p-5 space-y-4 flex-1 bg-white">
                     @forelse ($assignments as $assignment)
-                       @php
+                        @php
                             $ogrenci = $assignment->students->where('id', auth()->id())->first();
                             $isCompleted = $ogrenci ? $ogrenci->pivot->is_completed : false;
                             $isOverdue = \Carbon\Carbon::parse($assignment->due_date)->endOfDay()->isPast();
@@ -182,8 +182,10 @@
             <div class="p-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 @forelse(auth()->user()->courses as $course)
                     @php
-                        $count = $course->pivot->absences_count;
-                        $limit = $course->pivot->student_limit;
+                        // Null gelme ihtimaline karşı varsayılan değerler atadık (Sayfa çökmesin diye)
+                        $count = $course->pivot->absences_count ?? 0;
+                        $limit = $course->pivot->student_limit ?? 4; // Eğer sınır girilmemişse varsayılan 4 gösterilir
+                        
                         $percent = $limit > 0 ? min(100, ($count / $limit) * 100) : 0;
                         
                         $colorClass = 'bg-emerald-500';
@@ -220,7 +222,7 @@
                             <form action="{{ route('course.absence', $course->id) }}" method="POST" class="flex flex-col items-end opacity-60 focus-within:opacity-100 hover:opacity-100 transition">
                                 @csrf
                                 <span class="text-[10px] text-slate-400 font-bold uppercase mb-0.5">Sınırım</span>
-                                <input type="number" name="student_limit" value="{{ $limit }}" min="1" max="30" onchange="this.form.submit()" class="w-12 text-center text-sm py-1 px-1 border-slate-200 rounded-md text-slate-700 font-bold focus:ring-indigo-500 focus:border-indigo-500 shadow-sm">
+                                <input type="number" name="student_limit" value="{{ $limit }}" min="1" max="30" onchange="this.form.submit()" class="w-14 text-center text-sm py-1 px-1 border-slate-200 rounded-md text-slate-700 font-bold focus:ring-sky-500 focus:border-sky-500 shadow-sm">
                             </form>
                         </div>
 

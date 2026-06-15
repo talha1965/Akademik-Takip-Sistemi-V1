@@ -31,7 +31,6 @@
                     <h2 class="text-3xl font-black text-slate-800">{{ $stats['total_students'] }}</h2>
                 </div>
             </div>
-
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
                 <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-xl flex items-center justify-center text-2xl shadow-inner">👨‍🏫</div>
                 <div>
@@ -39,7 +38,6 @@
                     <h2 class="text-3xl font-black text-slate-800">{{ $stats['total_teachers'] }}</h2>
                 </div>
             </div>
-
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
                 <div class="w-14 h-14 bg-amber-100 text-amber-600 rounded-xl flex items-center justify-center text-2xl shadow-inner">📚</div>
                 <div>
@@ -47,7 +45,6 @@
                     <h2 class="text-3xl font-black text-slate-800">{{ $stats['total_courses'] }}</h2>
                 </div>
             </div>
-
             <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 flex items-center gap-4 hover:shadow-md transition">
                 <div class="w-14 h-14 bg-indigo-100 text-indigo-600 rounded-xl flex items-center justify-center text-2xl shadow-inner">👥</div>
                 <div>
@@ -63,6 +60,12 @@
                     <svg class="h-5 w-5 text-emerald-400 mr-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
                     <p class="text-sm font-bold text-emerald-800">{{ session('success') }}</p>
                 </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="bg-red-50 border-l-4 border-red-500 p-4 mb-8 rounded-r-lg shadow-sm">
+                <p class="text-sm font-bold text-red-800">{{ session('error') }}</p>
             </div>
         @endif
 
@@ -87,7 +90,6 @@
                     <tbody class="divide-y divide-slate-50">
                         @foreach ($users as $user)
                         <tr class="hover:bg-slate-50 transition group">
-                            
                             <td class="px-6 py-4">
                                 <div class="flex items-center gap-3">
                                     <div class="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 font-bold border border-slate-200">
@@ -99,11 +101,9 @@
                                     </div>
                                 </div>
                             </td>
-
                             <td class="px-6 py-4 text-slate-500 font-medium">
                                 {{ $user->created_at->format('d M Y') }}
                             </td>
-
                             <td class="px-6 py-4">
                                 @if($user->role === 'admin')
                                     <span class="inline-flex items-center gap-1.5 py-1 px-2.5 rounded-md text-xs font-bold bg-purple-50 text-purple-700 border border-purple-200">
@@ -120,10 +120,11 @@
                                     </span>
                                 @endif
                             </td>
-
                             <td class="px-6 py-4 text-right">
-                                <form action="#" method="POST" class="flex justify-end items-center gap-2">
+                                {{-- DÜZELTME: action="#" → route ile değiştirildi, @method('PATCH') eklendi --}}
+                                <form action="{{ route('admin.user.role', $user->id) }}" method="POST" class="flex justify-end items-center gap-2">
                                     @csrf
+                                    @method('PATCH')
                                     @if($user->id !== auth()->id())
                                         <select name="new_role" class="text-sm py-1.5 pl-3 pr-8 border-slate-200 rounded-md text-slate-600 focus:ring-slate-500 focus:border-slate-500 shadow-sm bg-slate-50 cursor-pointer">
                                             <option value="student" {{ $user->role === 'student' ? 'selected' : '' }}>Öğrenci Yap</option>
@@ -138,7 +139,6 @@
                                     @endif
                                 </form>
                             </td>
-
                         </tr>
                         @endforeach
                     </tbody>

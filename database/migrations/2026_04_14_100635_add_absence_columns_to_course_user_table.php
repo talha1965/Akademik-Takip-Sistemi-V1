@@ -24,5 +24,5 @@ public function down(): void
     Schema::table('course_user', function (Blueprint $table) {
         $table->dropColumn(['absences_count', 'student_limit']);
     });
-}
+}   
 };

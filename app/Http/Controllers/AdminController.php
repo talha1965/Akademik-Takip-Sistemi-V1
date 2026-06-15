@@ -8,10 +8,8 @@ use App\Models\Course;
 
 class AdminController extends Controller
 {
-    // Admin Paneli Ana Sayfası
     public function index()
     {
-        // 1. Üst Kısım İçin İstatistikleri Topla
         $stats = [
             'total_students' => User::where('role', 'student')->count(),
             'total_teachers' => User::where('role', 'teacher')->count(),
@@ -19,10 +17,25 @@ class AdminController extends Controller
             'total_users'    => User::count(),
         ];
 
-        // 2. Alt Tablo İçin Tüm Kullanıcıları Getir (En son kayıt olan en üstte)
         $users = User::orderBy('created_at', 'desc')->get();
 
-        // Verileri görünüme gönder
         return view('admin-panel', compact('stats', 'users'));
+    }
+
+    public function updateRole(Request $request, $id)
+    {
+        $request->validate([
+            'new_role' => 'required|in:student,teacher,admin',
+        ]);
+
+        $user = User::findOrFail($id);
+
+        if ($user->id === auth()->id()) {
+            return back()->with('error', 'Kendi rolünüzü değiştiremezsiniz.');
+        }
+
+        $user->update(['role' => $request->new_role]);
+
+        return back()->with('success', "{$user->name} kullanıcısının rolü güncellendi.");
     }
 }

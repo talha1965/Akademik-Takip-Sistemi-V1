@@ -9,14 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+public function up(): void
     {
         Schema::create('course_user', function (Blueprint $table) {
-        $table->id();
-        $table->foreignId('user_id')->constrained()->onDelete('cascade');
-        $table->foreignId('course_id')->constrained()->onDelete('cascade');
-        $table->timestamps();
-    });
+            $table->id();
+            $table->foreignId('user_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('course_id')->constrained()->cascadeOnDelete();
+            
+            // --- EKSİK OLAN VE HATA VERDİREN SÜTUNLAR BURASI ---
+            $table->string('status')->default('aktif');
+            $table->string('harf_notu')->nullable();
+            $table->integer('vize')->nullable();
+            $table->integer('final')->nullable();
+            // ----------------------------------------------------
+
+            $table->timestamps();
+        });
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('name');

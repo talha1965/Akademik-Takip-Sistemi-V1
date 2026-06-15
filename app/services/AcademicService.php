@@ -65,7 +65,7 @@ class AcademicService
             $renk = 'emerald';
             $mesaj = 'Doğrudan geçtiniz.';
         } elseif (in_array($harfNotu, ['DC', 'DD'])) {
-            // ŞARTLI GEÇİŞ (GNO KONTROLÜ DEVREYE GİRER)
+            
             if ($studentGno >= 2.00) {
                 $durum = 'ŞARTLI GEÇTİ';
                 $renk = 'amber';
@@ -77,7 +77,6 @@ class AcademicService
             }
         }
 
-        // Sonuçları paketleyip geri gönder
         return [
             'ortalama' => round($ortalama, 2),
             'harf_notu' => $harfNotu,
